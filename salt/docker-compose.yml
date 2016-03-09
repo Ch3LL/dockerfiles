@@ -1,0 +1,16 @@
+salt-master:
+  build: salt-master
+  ports:
+    - 4505:4505
+    - 4506:4506
+  container_name: salt
+  hostname: salt
+  volumes:
+    - ~/github/salt:/srv/salt
+
+salt-minion:
+  build: salt-minion
+  volumes:
+    - ~/github/salt:/srv/salt
+  links:
+    - salt-master:salt
