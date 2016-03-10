@@ -1,3 +1,4 @@
+
 master:
   build: salt
   ports:
@@ -6,16 +7,31 @@ master:
     - 8000
   hostname: salt
   environment:
+    - PATH=/root/.pyenv/shims:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     - SALT_MASTER=True
     - SALT_API=True
   volumes:
-    - ~/github/salt:/srv/salt
+    - ~/github/salt:/srv/gitrepo
+    - ./states:/srv/salt
+    - ./pillar:/srv/pillar
 
 minion:
   build: salt
   environment:
+    - PATH=/root/.pyenv/shims:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     - SALT_MINION=True
   volumes:
-    - ~/github/salt:/srv/salt
+    - ~/github/salt:/srv/gitrepo
+  links:
+    - master:salt
+
+proxy:
+  build: salt
+  command: [-l, debug]
+  environment:
+    - PATH=/root/.pyenv/shims:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    - SALT_PROXY=True
+  volumes:
+    - ~/github/salt:/srv/gitrepo
   links:
     - master:salt
