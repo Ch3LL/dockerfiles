@@ -6,6 +6,7 @@ ENTRYPOINT ["/usr/local/bin/entrypoint"]
 RUN yum localinstall -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 RUN yum update -y
 RUN yum install -y gcc gcc-c++ readline-devel openssl-devel bzip2-devel sqlite-devel libffi-devel make git 
+RUN yum clean all
 
 RUN git clone git://github.com/yyuu/pyenv.git /usr/local/share/pyenv
 RUN ln -s /usr/local/share/pyenv/bin/pyenv /usr/local/bin/pyenv

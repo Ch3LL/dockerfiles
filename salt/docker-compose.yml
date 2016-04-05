@@ -1,6 +1,5 @@
-
 master:
-  build: salt
+  image: gtmanfred/salt
   ports:
     - 4505:4505
     - 4506:4506
@@ -16,7 +15,7 @@ master:
     - ./pillar:/srv/pillar
 
 minion:
-  build: salt
+  image: gtmanfred/salt
   environment:
     - PATH=/root/.pyenv/shims:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     - SALT_MINION=True
@@ -26,7 +25,7 @@ minion:
     - master:salt
 
 proxy:
-  build: salt
+  image: gtmanfred/salt
   command: [-l, debug]
   environment:
     - PATH=/root/.pyenv/shims:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
