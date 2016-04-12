@@ -26,6 +26,16 @@ class Thread(object):
         t.start()
 
 if 'True' in (os.environ.get('SALT_MASTER', 'False'), os.environ.get('SALT_API', 'False')):
+    spmdir = os.environ.get('SPM_DIR', '/srv/spms')
+    spmbuilddir = os.environ.get('SPM_BUILD_DIR', '/srv/spm_build')
+    if os.path.isdir(spmdir):
+        for dirname in os.listdir(spmdir):
+            if not os.path.isdir(os.path.join(spmdir, dirname)):
+                continue
+            subprocess.call(['spm', 'build', os.path.join(spmdir, dirname)])
+        if os.path.isdir(spmbuilddir):
+            for spmfile in os.listdir(spmbuilddir):
+                subprocess.call(['spm', 'local', 'install', '-y', os.path.join(spmbuilddir, spmfile)])
     Thread.start('salt-master')
     if os.environ.get('SALT_API', 'False') == 'True':
         subprocess.call(['salt-call', '--local', 'tls.create_self_signed_cert'])

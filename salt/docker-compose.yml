@@ -9,8 +9,11 @@ master:
     - PATH=/root/.pyenv/shims:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     - SALT_MASTER=True
     - SALT_API=True
+    - SPM_DIR=/srv/spms
+    - SPM_BUILD_DIR=/srv/spm_build
   volumes:
     - ~/github/salt:/srv/gitrepo
+    # - ~/github/hpeov:/srv/spms/hpeov
     - ./states:/srv/salt
     - ./pillar:/srv/pillar
 
