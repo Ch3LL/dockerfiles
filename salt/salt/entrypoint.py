@@ -36,7 +36,7 @@ if 'True' in (os.environ.get('SALT_MINION', 'False'), os.environ.get('SALT_PROXY
         print(minionid, end='', file=idfile)
     Thread.start('salt-minion')
     if os.environ.get('SALT_PROXY', 'False') == 'True':
-        subprocess.call(['salt-call', 'state.sls', 'proxy'])
+        subprocess.call(['salt-call', 'state.apply', 'proxy'])
         proxyid = '-'.join(['proxy', socket.gethostname()])
         Thread.start('salt-proxy', args=['--proxyid', proxyid])
 
